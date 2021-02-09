@@ -89,3 +89,71 @@ def check_board_form(board: list):
                 return False
 
     return True
+
+def check_numbers(board: list):
+    """
+    Used in validate_board()
+
+    Checks if the numbers in same columns, rows and colours are different
+
+    >>> check_numbers(["**** ****", "***1 ****", "**  3****", \
+                       "* 4 1****", "     9 5 ", " 6  83  *", \
+                       "3   1  **", "  8  2***", "  2  ****"])
+    False
+    >>> check_numbers(["**** ****", "***1 ****", "**  3****", \
+                       "* 4 1****", "     9 5 ", " 6  83  *", \
+                       "3      **", "  8  2***", "  2  ****"])
+    True
+    """
+    if rows_check(board) and \
+       columns_check(board) and \
+       color_check(board):
+        # All conditions are satisfied
+        return True
+    
+    return False
+
+
+def rows_check(board: list):
+    """
+    Used in check_numbers()
+
+    Checks if the numbers in same rows are different
+
+    >>> rows_check(["**** ****", "***1 ****", "**  3****", \
+                    "* 4 1****", "     9 5 ", " 6  83  *", \
+                    "3   1  **", "  8  2***", "  2  ****"])
+    True
+    """
+    for line in board:
+        numbers_in_line = []
+        for element in line:
+            if element.isnumeric():
+                numbers_in_line.append(element)
+        
+        if check_uniqueness(numbers_in_line) == False:
+            return False
+    
+    return True
+
+def columns_check(board: list):
+    """
+    Used in check_numbers()
+
+    Checks if the numbers in same columns are different
+
+    >>> columns_check(["**** ****", "***1 ****", "**  3****", \
+                       "* 4 1****", "     9 5 ", " 6  83  *", \
+                       "3   1  **", "  8  2***", "  2  ****"])
+    False
+    """
+    for j in range(9):
+        numbers_in_column = []
+        for i in range(9):
+            if board[i][j].isnumeric():
+                numbers_in_column.append(board[i][j])
+        
+        if check_uniqueness(numbers_in_column) == False:
+            return False
+    
+    return True

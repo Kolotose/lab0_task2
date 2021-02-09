@@ -157,3 +157,67 @@ def columns_check(board: list):
             return False
     
     return True
+
+def color_check(board: list):
+    """
+    Used in check_numbers()
+
+    Checks if the numbers in same columns are different
+
+    >>> color_check(["**** ****", "***1 ****", "**  3****", \
+                     "* 4 1****", "     9 5 ", " 6  83  *", \
+                     "3   1  **", "  8  2***", "  2  ****"])
+    True
+    """
+    for i in range(5):
+        numbers_in_colour = []
+        numbers_in_colour.append(board[8-i][i])
+        
+        for j in range(1, 5):
+            numbers_in_colour.append(board[8-i-j][i])
+            numbers_in_colour.append(board[8-i][i+j])
+
+        if check_uniqueness(numbers_in_colour) == False:
+            return False
+    
+    return True
+
+def check_uniqueness(list_of_numbers: list):
+    """
+    Used in color_check(), rows_check(), columns_check()
+
+    Checks if the numbers in list are unique
+
+    >>> check_uniqueness(['1', '2', '3', '4', '6', '7', '8', '9'])
+    True
+    >>> check_uniqueness(['1', '2', '3', '4', '5', '6', '7', '1'])
+    False
+    """
+    for number in range(1, 10):
+        amount = list_of_numbers.count(str(number))
+        if amount > 1:
+            return False
+
+    return True
+
+def validate_board(board: list):
+    """
+    Main function
+
+    Checks if the board is ready for the game
+
+    >>> validate_board(["**** ****", "***1 ****", "**  3****", \
+                        "* 4 1****", "     9 5 ", " 6  83  *", \
+                        "3   1  **", "  8  2***", "  2  ****"])
+    False
+    """
+    if check_board_size(board) and \
+       check_board_form(board) and \
+       check_numbers(board):
+            return True
+
+    return False
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
